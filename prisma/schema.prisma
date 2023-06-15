@@ -17,6 +17,9 @@ model Manga {
   title     String
   author    String
   status    String
+  sinopse   String
+  rate      RateManga[]
+  gender    Gender[]
   chapters  Chapter[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -24,10 +27,40 @@ model Manga {
   @@map("mangas")
 }
 
+model Gender {
+  id       Int      @id @default(autoincrement())
+  name     String
+
+  mangas   Manga[]
+  @@map("genders")
+}
+
+model RateManga {
+  id        Int      @id @default(autoincrement())
+  mangaId   Int
+  userId    Int
+  rate      Int
+
+  manga     Manga    @relation(fields: [mangaId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  @@map("rate_mangas")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  rate      RateManga[]
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
 model Chapter {
   id        Int      @id @default(autoincrement())
   title     String
-  number    Int
+  number    Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mangaId   Int
