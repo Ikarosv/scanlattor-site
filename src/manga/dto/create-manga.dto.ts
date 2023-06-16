@@ -1,26 +1,29 @@
+import { Prisma } from '@prisma/client';
+
 import {
-  IsArray,
   IsDateString,
   IsString,
   MinLength,
   IsOptional,
+  IsUrl,
+  IsObject,
 } from 'class-validator';
 
-export class CreateMangaDto {
+export class CreateMangaDto implements Prisma.MangaCreateManyInput {
   @IsString({
-    message: 'Title precisa ser uma string',
+    message: 'O título precisa ser uma string',
   })
   @MinLength(2, {
-    message: 'Title precisa ter no mínimo 2 caracteres',
+    message: 'O título precisa ter no mínimo 2 caracteres',
   })
   title: string;
 
-  @IsDateString()
-  releaseDate: string;
+  @IsDateString({}, { message: 'Data inválida' })
+  releaseDate: Date;
 
   @IsString()
   @MinLength(2, {
-    message: 'Author precisa ter no mínimo 2 caracteres',
+    message: 'Autor precisa ter no mínimo 2 caracteres',
   })
   @IsOptional()
   author: string;
@@ -28,20 +31,17 @@ export class CreateMangaDto {
   @IsString()
   status: string;
 
-  @IsArray()
-  chapters: object[];
+  @IsString()
+  slug: string;
+
+  @IsString()
+  synopsis: string;
+
+  @IsUrl()
+  thumbnail: string;
+
+  @IsObject({ each: true, message: 'Gênero deve ser um objeto' })
+  gender: Gender | Gender[];
 }
 
-/*
-model Manga {
-  id        Int      @id @default(autoincrement())
-  title     String
-  author    String
-  status    String
-  chapters  Chapter[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("mangas")
-}
- */
+type Gender = { id: number };
