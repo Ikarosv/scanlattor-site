@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Controller,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
@@ -21,18 +22,24 @@ export class UserController {
 
   @Get()
   async findAll() {
-    return { users: [] }; // This will return all the users
+    return this.userService.findAll(); // This will return all the users
   }
+
   @Get(':id')
-  async findOne(@Param() { id }: { id: string }) {
-    return { user: { id } }; // This will return the user with the id passed in the url
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.findOne(id); // This will return the user with the id passed in the url
   }
+
   @Put(':id')
-  async update() {
-    return 'This action updates a user';
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() newUser: CreateUserDto,
+  ) {
+    return this.userService.update(id, newUser); // This will update the user with the id passed in the url
   }
+
   @Delete(':id')
-  async remove() {
-    return 'This action removes a user';
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.remove(id); // This will remove the user with the id passed in the url
   }
 }
