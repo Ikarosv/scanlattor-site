@@ -13,17 +13,21 @@ datasource db {
 }
 
 model Manga {
-  id        Int      @id @default(autoincrement())
-  title     String
-  author    String
-  status    String
-  sinopse   String
-  rate      RateManga[]
-  gender    Gender[]
-  chapters  Chapter[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  title          String
+  slug           String   @unique
+  author         String?
+  status         String
+  synopsis       String
+  thumbnail      String
+  rate           RateManga[]
+  gender         Gender[]
+  chapters       Chapter[]
+  releaseDate    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
+  @@unique([title, author])
   @@map("mangas")
 }
 
@@ -59,8 +63,9 @@ model User {
 
 model Chapter {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String?
   number    Float
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mangaId   Int
