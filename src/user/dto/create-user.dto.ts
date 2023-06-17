@@ -27,7 +27,7 @@ export class CreateUserDto {
     },
     {
       message:
-        'A senha deve conter pelo menos 6 caracteres, 1 letra maiúscula, 1 letra minúscula, 2 número e 1 símbolo',
+        'A senha deve conter pelo menos 6 caracteres, 1 letra maiúscula, 1 letra minúscula, 2 números e 1 símbolo',
     },
   )
   password: string;
