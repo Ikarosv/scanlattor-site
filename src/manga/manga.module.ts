@@ -8,5 +8,6 @@ import { MangaService } from './manga.service';
   imports: [PrismaModule],
   controllers: [MangaController],
   providers: [MangaService, PrismaService],
+  exports: [MangaService],
 })
 export class MangaModule {}

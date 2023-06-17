@@ -1,4 +1,5 @@
 import { CreateMangaDto } from './dto/create-manga.dto';
+import { UpdateMangaDto } from './dto/update-manga.dto';
 import { MangaService } from './manga.service';
 import {
   Body,
@@ -10,6 +11,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('mangas')
 export class MangaController {
@@ -20,11 +22,13 @@ export class MangaController {
     return this.mangaService.create(newManga); // This will return the newly created manga
   }
 
+  @Public()
   @Get()
   async findAll() {
     return this.mangaService.findAll(); // This will return all the mangas
   }
 
+  @Public()
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.mangaService.findOne(id); // This will return the manga with the id passed in the url
@@ -33,7 +37,7 @@ export class MangaController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() newManga: CreateMangaDto,
+    @Body() newManga: UpdateMangaDto,
   ) {
     return this.mangaService.update(id, newManga); // This will update the manga with the id passed in the url
   }

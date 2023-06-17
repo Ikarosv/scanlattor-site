@@ -8,6 +8,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
 import { Prisma } from '@prisma/client';
+import { UpdateMangaDto } from './dto/update-manga.dto';
 
 @Injectable()
 export class MangaService {
@@ -57,7 +58,7 @@ export class MangaService {
     return manga;
   }
 
-  async update(@Param('id', ParseIntPipe) id: number, data: CreateMangaDto) {
+  async update(@Param('id', ParseIntPipe) id: number, data: UpdateMangaDto) {
     await this.findOne(id);
     const query: Prisma.MangaUpdateArgs = {
       where: {
