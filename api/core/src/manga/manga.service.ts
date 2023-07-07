@@ -4,6 +4,7 @@ import {
   Injectable,
   Param,
   ParseIntPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
@@ -28,8 +29,46 @@ export class MangaService {
     return manga;
   }
 
-  async findAll() {
-    return this.prisma.manga.findMany();
+  async findAll({ page, search }: findAll.props) {
+    if (page && page < 1)
+      throw new BadRequestException('Página deve ser maior que 0');
+
+    const query: Prisma.MangaFindManyArgs = {
+      include: {
+        chapters: {
+          orderBy: {
+            number: 'desc',
+          },
+          take: 5,
+        },
+      },
+    };
+
+    if (page) {
+      query.skip = (page - 1) * 10;
+      query.take = 20;
+    }
+
+    if (search) {
+      query.where = {
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            synopsis: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      };
+    }
+
+    return this.prisma.manga.findMany(query);
   }
 
   async create(data: CreateMangaDto) {

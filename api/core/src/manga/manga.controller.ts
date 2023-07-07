@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.decorator';
 
@@ -24,8 +25,11 @@ export class MangaController {
 
   @Public()
   @Get()
-  async findAll() {
-    return this.mangaService.findAll(); // This will return all the mangas
+  async findAll(
+    @Query('page') page?: number,
+    @Query('search') search?: string,
+  ) {
+    return this.mangaService.findAll({ page, search }); // This will return all the mangas
   }
 
   @Public()
