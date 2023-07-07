@@ -1,7 +1,9 @@
 import { IsDateString, IsString, IsNumber, IsOptional } from 'class-validator';
 import { Prisma } from '@prisma/client';
 
-export class CreateChapterDto implements Prisma.ChapterCreateWithoutMangaInput {
+export class CreateChapterDto
+  implements Prisma.ChapterUncheckedCreateWithoutMangaInput
+{
   @IsString()
   content: string;
 
@@ -27,4 +29,7 @@ export class CreateChapterDto implements Prisma.ChapterCreateWithoutMangaInput {
   @IsOptional()
   @IsDateString()
   updatedAt: Date;
+
+  @IsOptional()
+  createdById: number;
 }

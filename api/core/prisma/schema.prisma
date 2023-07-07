@@ -1,75 +1,88 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum Status {
+  ongoing
+  completed
+  cancelled
 }
 
 model Manga {
-  id             Int      @id @default(autoincrement())
-  title          String
-  slug           String   @unique
-  author         String?
-  status         String
-  synopsis       String
-  thumbnail      String
-  rate           RateManga[]
-  gender         Gender[]
-  chapters       Chapter[]
-  releaseDate    DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id          Int         @id @default(autoincrement())
+  title       String
+  slug        String      @unique
+  author      String?
+  status      Status?     @default(ongoing)
+  synopsis    String
+  thumbnail   String
+  releaseDate DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  chapters    Chapter[]
+  rate        RateManga[]
+  gender      Gender[]    @relation("GenderToManga")
 
   @@unique([title, author])
   @@map("mangas")
 }
 
 model Gender {
-  id       Int      @id @default(autoincrement())
-  name     String
+  id     Int     @id @default(autoincrement())
+  name   String
+  mangas Manga[] @relation("GenderToManga")
 
-  mangas   Manga[]
   @@map("genders")
 }
 
 model RateManga {
-  id        Int      @id @default(autoincrement())
-  mangaId   Int
-  userId    Int
-  rate      Int
+  id      Int   @id @default(autoincrement())
+  mangaId Int
+  userId  Int
+  rate    Int
+  manga   Manga @relation(fields: [mangaId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
 
-  manga     Manga    @relation(fields: [mangaId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
   @@map("rate_mangas")
 }
 
+enum Role {
+  user
+  mod
+  admin
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   name      String
-  email     String   @unique
+  email     String      @unique
   password  String
+  createdAt DateTime    @default(now())
+  role      Role        @default(user)
   rate      RateManga[]
-  createdAt DateTime @default(now())
+  chapter   Chapter[]
 
   @@map("users")
 }
 
 model Chapter {
-  id        Int      @id @default(autoincrement())
-  title     String?
-  number    Float
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  mangaId   Int
+  id          Int      @id @default(autoincrement())
+  title       String?
+  number      Float
+  content     String
+  createdAt   DateTime @default(now())
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  updatedAt   DateTime @updatedAt
+  mangaId     Int
+  manga       Manga    @relation(fields: [mangaId], references: [id], onDelete: Cascade)
 
-  manga     Manga    @relation(fields: [mangaId], references: [id])
   @@map("chapters")
 }

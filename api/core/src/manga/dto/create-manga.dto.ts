@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, Status } from '@prisma/client';
 
 import {
   IsDateString,
@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsUrl,
   IsObject,
+  IsEnum,
 } from 'class-validator';
 
 export class CreateMangaDto implements Prisma.MangaCreateManyInput {
@@ -28,8 +29,8 @@ export class CreateMangaDto implements Prisma.MangaCreateManyInput {
   @IsOptional()
   author: string;
 
-  @IsString()
-  status: string;
+  @IsEnum(Status)
+  status: Status;
 
   @IsString()
   slug: string;
