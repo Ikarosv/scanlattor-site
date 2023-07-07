@@ -27,7 +27,8 @@ export class AuthController {
 
   @Public()
   @Post('forget')
-  async forget(@Body() user: CreateUserDto) {
-    return this.authService.forget(user.email); // This will return the token
+  async forget(@Body() user: LoginUserDto['email']) {
+    throw new NotImplementedException({ message: 'Ainda não implementado!' });
+    // return this.authService.forget(user.email); // This will return the token
   }
 }
