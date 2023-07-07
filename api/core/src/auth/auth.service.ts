@@ -41,11 +41,23 @@ export class AuthService {
       throw new UnauthorizedException('Usuário já existe!');
     }
 
-    return this.userService.create({
+    const createdUser = await this.userService.create({
       email,
       name,
       password,
     });
+
+    const { password: _password, ...createdUserWithoutPassword } = createdUser;
+
+    const payload = {
+      sub: createdUserWithoutPassword.id,
+      username: createdUserWithoutPassword.name,
+      user: createdUserWithoutPassword,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 
   async forget(email: string) {
