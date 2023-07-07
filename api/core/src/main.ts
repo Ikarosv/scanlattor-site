@@ -8,7 +8,10 @@ async function bootstrap() {
     // new FastifyAdapter(),
   );
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3001, '0.0.0.0');
-  console.log('\u001B[32m Server running on \u001B[0m http://localhost:3001');
+  const port = process.env.PORT || 3001;
+  await app.listen(port, '0.0.0.0');
+  console.log(
+    `\u001B[32m Server running on \u001B[0m http://localhost:${port}`,
+  );
 }
 bootstrap();
