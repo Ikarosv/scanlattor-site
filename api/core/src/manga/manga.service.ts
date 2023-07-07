@@ -105,14 +105,20 @@ export class MangaService {
       },
       data: {
         ...data,
-        releaseDate: new Date(data.releaseDate).toISOString() ?? undefined,
-        gender: data.gender
-          ? {
-              connect: data.gender,
-            }
-          : undefined,
+        releaseDate: undefined,
+        gender: undefined,
       },
     };
+
+    if (data.releaseDate) {
+      query.data.releaseDate = new Date(data.releaseDate).toISOString();
+    }
+
+    if (data.gender) {
+      query.data.gender = {
+        connect: data.gender,
+      };
+    }
 
     return this.prisma.manga.update(query);
   }
