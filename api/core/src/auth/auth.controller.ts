@@ -1,4 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  NotImplementedException,
+  Post,
+} from '@nestjs/common';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -20,6 +25,7 @@ export class AuthController {
     return this.authService.register(user.email, user.name, user.password); // This will return the token
   }
 
+  @Public()
   @Post('forget')
   async forget(@Body() user: CreateUserDto) {
     return this.authService.forget(user.email); // This will return the token
