@@ -14,6 +14,7 @@ async function bootstrap() {
     AppModule,
     new ExpressAdapter(),
   );
+  await nestApp.init()
   nestApp.useGlobalPipes(new ValidationPipe());
   const app = nestApp.getHttpAdapter().getInstance();
   return app
