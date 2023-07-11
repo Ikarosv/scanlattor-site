@@ -57,6 +57,7 @@ model User {
   password  String
   rate      RateManga[]
   createdAt DateTime @default(now())
+  role      String   @default("user")
 
   @@map("users")
 }

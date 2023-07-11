@@ -9,6 +9,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
 import { Prisma } from '@prisma/client';
 import { UpdateMangaDto } from './dto/update-manga.dto';
+import { v2 as cloudinary } from 'cloudinary';
+import '../cloudinary/config';
 
 @Injectable()
 export class MangaService {
@@ -29,7 +31,8 @@ export class MangaService {
   }
 
   async findAll() {
-    return this.prisma.manga.findMany();
+    return cloudinary.search.expression('thumbs').execute();
+    // return this.prisma.manga.findMany();
   }
 
   async create(data: CreateMangaDto) {
