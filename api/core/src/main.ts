@@ -8,7 +8,7 @@ import { ExpressFramework } from '@h4ad/serverless-adapter/lib/frameworks/expres
 import { DefaultHandler } from '@h4ad/serverless-adapter/lib/handlers/default';
 import { PromiseResolver } from '@h4ad/serverless-adapter/lib/resolvers/promise';
 import { ApiGatewayV2Adapter } from '@h4ad/serverless-adapter/lib/adapters/aws';
-import { PrismaService } from './prisma/prisma.service';
+// import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
   try {
@@ -17,17 +17,17 @@ async function bootstrap() {
       new ExpressAdapter(),
     );
     await nestApp.init()
-    const prismaService = nestApp.get(PrismaService);
-    await prismaService.enableShutdownHooks(nestApp)
+    // const prismaService = nestApp.get(PrismaService);
+    // await prismaService.enableShutdownHooks(nestApp)
     nestApp.useGlobalPipes(new ValidationPipe());
-    if (process.env.JWT_SECRET === 'secret') {
-      const port = process.env.PORT || 3001;
-      await nestApp.listen(port, '0.0.0.0');
-      console.log(
-        `\u001B[32m Server running on \u001B[0m http://localhost:${port}`,
-      );
-      return;
-    }
+    // if (process.env.JWT_SECRET === 'secret') {
+    //   const port = process.env.PORT || 3001;
+    //   await nestApp.listen(port, '0.0.0.0');
+    //   console.log(
+    //     `\u001B[32m Server running on \u001B[0m http://localhost:${port}`,
+    //   );
+    //   return;
+    // }
     const app = nestApp.getHttpAdapter().getInstance();
     return app
   } catch (err) {
@@ -35,25 +35,4 @@ async function bootstrap() {
   }
 }
 
-if (process.env.JWT_SECRET === 'secret') {
-  try {
-    bootstrap();
-  } catch (err) {
-    console.error(err)
-  }
-} else {
-  try {
-    const expressFramework = new ExpressFramework();
-    // the initialization of nestjs is asynchronous, so you can use the lazy framework.
-    const framework = new LazyFramework(expressFramework, bootstrap);
-    
-    module.exports.handler = ServerlessAdapter.new(null)
-      .setFramework(framework)
-      .setHandler(new DefaultHandler())
-      .setResolver(new PromiseResolver())
-      .addAdapter(new ApiGatewayV2Adapter())
-      .build();
-  } catch (err) {
-    console.error(err)
-  }
-}
+bootstrap();
