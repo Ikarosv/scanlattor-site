@@ -29,17 +29,14 @@ async function bootstrap() {
 }
 
 
-try {
-  const expressFramework = new ExpressFramework();
-  // the initialization of nestjs is asynchronous, so you can use the lazy framework.
-  const framework = new LazyFramework(expressFramework, bootstrap);
-  
-  module.exports.handler = ServerlessAdapter.new(null)
-    .setFramework(framework)
-    .setHandler(new DefaultHandler())
-    .setResolver(new PromiseResolver())
-    .addAdapter(new ApiGatewayV2Adapter())
-    .build();
-} catch (err) {
-  console.error(err)
-}
+
+const expressFramework = new ExpressFramework();
+// the initialization of nestjs is asynchronous, so you can use the lazy framework.
+const framework = new LazyFramework(expressFramework, bootstrap);
+
+export const handler = ServerlessAdapter.new(null)
+  .setFramework(framework)
+  .setHandler(new DefaultHandler())
+  .setResolver(new PromiseResolver())
+  .addAdapter(new ApiGatewayV2Adapter())
+  .build();
