@@ -31,6 +31,7 @@
     "@nestjs/mapped-types": "^2.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.15.0",
+    "@vendia/serverless-express": "^4.10.4",
     "bcrypt": "^5.1.0",
     "bohr": "^1.0.501",
     "class-transformer": "^0.5.1",
