@@ -1,10 +1,8 @@
-import { Prisma, Role } from "@prisma/client";
+import { AbilityBuilder } from '@casl/ability'
 import Admin from "./Admin";
 import Mod from "./Mod";
-import { Action } from "../../enums/actions.enums";
-import { AppAbility } from "../abilities/AppAbility";
-import { AbilityBuilder } from '@casl/ability'
 import UserPermission from "./User";
+import { AppAbility } from "../abilities/AppAbility";
 
 export type AddRuleCan = AbilityBuilder<AppAbility>['can']
 export type AddRuleCannot = AbilityBuilder<AppAbility>['cannot']
