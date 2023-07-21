@@ -6,12 +6,12 @@ import {
   ParseIntPipe,
   BadRequestException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
 import { Prisma } from '@prisma/client';
 import { UpdateMangaDto } from './dto/update-manga.dto';
 // import { v2 as cloudinary } from 'cloudinary';
-import '../cloudinary/config';
+// import '../cloudinary/config';
 
 @Injectable()
 export class MangaService {
