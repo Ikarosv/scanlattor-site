@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "@h4ad/serverless-adapter": "^3.1.0",
+    "@casl/ability": "^6.5.0",
+    "@casl/prisma": "^1.4.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.1.0",
@@ -36,6 +38,7 @@
     "bohr": "^1.0.501",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "cloudinary": "^1.37.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

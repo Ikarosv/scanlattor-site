@@ -10,6 +10,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
 import { Prisma } from '@prisma/client';
 import { UpdateMangaDto } from './dto/update-manga.dto';
+// import { v2 as cloudinary } from 'cloudinary';
+import '../cloudinary/config';
 
 @Injectable()
 export class MangaService {
@@ -43,6 +45,8 @@ export class MangaService {
         },
       },
     };
+
+    // cloudinary.search.expression('thumbs').execute();
 
     if (page) {
       query.skip = (page - 1) * 10;
