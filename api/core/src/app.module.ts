@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { CaslModule } from './casl/casl.module';
+import { PoliciesGuard } from './policies-guard/policies-guard.guard';
 
 @Module({
   imports: [MangaModule, UserModule, ChapterModule, AuthModule, CaslModule],
@@ -18,6 +19,10 @@ import { CaslModule } from './casl/casl.module';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    {
+      provide: APP_GUARD,
+      useClass: PoliciesGuard,
+    }
   ],
 })
 export class AppModule {}
