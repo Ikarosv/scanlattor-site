@@ -20,16 +20,12 @@ async function bootstrap() {
     // const prismaService = nestApp.get(PrismaService);
     // await prismaService.enableShutdownHooks(nestApp)
     nestApp.useGlobalPipes(new ValidationPipe());
-    // if (process.env.JWT_SECRET === 'secret') {
-    //   const port = process.env.PORT || 3001;
-    //   await nestApp.listen(port, '0.0.0.0');
-    //   console.log(
-    //     `\u001B[32m Server running on \u001B[0m http://localhost:${port}`,
-    //   );
-    //   return;
-    // }
-    const app = nestApp.getHttpAdapter().getInstance();
-    return app
+    const port = process.env.PORT || 3001;
+    await nestApp.listen(port, '0.0.0.0');
+    console.log(
+      `\u001B[32m Server running on \u001B[0m http://localhost:${port}`,
+    );
+    return;
   } catch (err) {
     console.error(err)
   }
