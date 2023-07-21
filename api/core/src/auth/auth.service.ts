@@ -2,6 +2,7 @@ import { UserService } from 'src/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -9,6 +10,20 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
   ) {}
+
+  async createToken(user: User) {
+    const { password: _pass, ...userWithoutPassword } = user;
+
+    const payload = {
+      sub: userWithoutPassword.id,
+      username: userWithoutPassword.name,
+      user: userWithoutPassword,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 
   async login(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
@@ -23,15 +38,7 @@ export class AuthService {
 
     const { password: _pass, ...userWithoutPassword } = user;
 
-    const payload = {
-      sub: user.id,
-      username: user.name,
-      user: userWithoutPassword,
-    };
-
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    return this.createToken(user);
   }
 
   async register(email: string, name: string, password: string) {
@@ -47,17 +54,7 @@ export class AuthService {
       password,
     });
 
-    const { password: _password, ...createdUserWithoutPassword } = createdUser;
-
-    const payload = {
-      sub: createdUserWithoutPassword.id,
-      username: createdUserWithoutPassword.name,
-      user: createdUserWithoutPassword,
-    };
-
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    return this.createToken(createdUser);
   }
 
   async forget(email: string) {
