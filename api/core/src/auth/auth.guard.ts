@@ -8,6 +8,21 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { Role } from '@prisma/client';
+
+type ResultToken = {
+  sub: number,
+  username: string,
+  user: {
+    id: number,
+    name: string,
+    email: string,
+    createdAt: string,
+    role: Role
+  },
+  iat: number,
+  exp: number
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -31,11 +46,11 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync<ResultToken>(token, {
         secret: process.env.JWT_SECRET,
       });
 
-      request['user'] = payload;
+      request['user'] = payload.user;
     } catch {
       throw new UnauthorizedException('Usuário não autorizado!');
     }
