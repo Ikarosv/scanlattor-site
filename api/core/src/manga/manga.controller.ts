@@ -50,4 +50,10 @@ export class MangaController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.mangaService.remove(id); // This will remove the manga with the id passed in the url
   }
+  
+  @Public()
+  @Get('most-read')
+  async findMostRead() {
+    return this.mangaService.findMostRead();
+  }
 }

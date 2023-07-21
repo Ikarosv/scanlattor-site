@@ -72,7 +72,12 @@ export class MangaService {
       };
     }
 
-    return this.prisma.manga.findMany(query);
+    const [total, mangas] = await this.prisma.$transaction([
+      this.prisma.manga.count({ where: query.where }),
+      this.prisma.manga.findMany(query)
+    ])
+
+    return { total, mangas };
   }
 
   async create(data: CreateMangaDto) {
@@ -134,5 +139,9 @@ export class MangaService {
         id,
       },
     });
+  }
+
+  async findMostRead() {
+    
   }
 }
