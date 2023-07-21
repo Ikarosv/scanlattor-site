@@ -16,9 +16,6 @@ async function bootstrap() {
       AppModule,
       new ExpressAdapter(),
     );
-    await nestApp.init()
-    // const prismaService = nestApp.get(PrismaService);
-    // await prismaService.enableShutdownHooks(nestApp)
     nestApp.useGlobalPipes(new ValidationPipe());
     const port = process.env.PORT || 3001;
     await nestApp.listen(port, '0.0.0.0');
