@@ -29,14 +29,12 @@ export class AuthService {
     const user = await this.userService.findByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('Usuário não encontrado!');
+      throw new UnauthorizedException('Email não encontrado!');
     }
 
     if (!(await compare(password, user.password))) {
       throw new UnauthorizedException('Senha incorreta!');
     }
-
-    const { password: _pass, ...userWithoutPassword } = user;
 
     return this.createToken(user);
   }
