@@ -1,10 +1,9 @@
 import {
-  HttpStatus,
-  HttpException,
   Injectable,
   Param,
   ParseIntPipe,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateMangaDto } from './dto/create-manga.dto';
@@ -25,7 +24,7 @@ export class MangaService {
     });
 
     if (!manga) {
-      throw new HttpException('Mangá não existe', HttpStatus.BAD_REQUEST);
+      throw new BadRequestException('Mangá não existe');
     }
 
     return manga;
@@ -74,8 +73,8 @@ export class MangaService {
 
     const [total, mangas] = await this.prisma.$transaction([
       this.prisma.manga.count({ where: query.where }),
-      this.prisma.manga.findMany(query)
-    ])
+      this.prisma.manga.findMany(query),
+    ]);
 
     return { total, mangas };
   }
@@ -90,7 +89,7 @@ export class MangaService {
     });
 
     if (mangaExists) {
-      throw new HttpException('Manga já existe', HttpStatus.CONFLICT);
+      throw new ConflictException('Manga já existe');
     }
 
     const manga = await this.prisma.manga.create({
@@ -141,7 +140,5 @@ export class MangaService {
     });
   }
 
-  async findMostRead() {
-    
-  }
+  async findMostRead() {}
 }
