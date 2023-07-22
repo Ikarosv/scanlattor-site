@@ -13,11 +13,18 @@ import {
   Query,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.decorator';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Mangas')
 @Controller('mangas')
 export class MangaController {
   constructor(private readonly mangaService: MangaService) {}
 
+  @ApiOperation({
+    summary: 'Cria um novo manga',
+    description: 'Rota POST que retorna um manga',
+  })
+  @ApiBearerAuth('')
   @Post()
   async create(@Body() newManga: CreateMangaDto) {
     return this.mangaService.create(newManga); // This will return the newly created manga
@@ -50,7 +57,7 @@ export class MangaController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.mangaService.remove(id); // This will remove the manga with the id passed in the url
   }
-  
+
   @Public()
   @Get('most-read')
   async findMostRead() {

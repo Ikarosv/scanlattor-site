@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Prisma, Status } from '@prisma/client';
 
 import {
@@ -11,6 +12,7 @@ import {
 } from 'class-validator';
 
 export class CreateMangaDto implements Prisma.MangaCreateManyInput {
+  @ApiProperty({ required: true })
   @IsString({
     message: 'O título precisa ser uma string',
   })
@@ -19,28 +21,35 @@ export class CreateMangaDto implements Prisma.MangaCreateManyInput {
   })
   title: string;
 
+  @ApiProperty({ required: true })
   @IsDateString({}, { message: 'Data inválida' })
   releaseDate: Date;
 
+  @ApiProperty({ required: false })
   @IsString()
   @MinLength(2, {
     message: 'Autor precisa ter no mínimo 2 caracteres',
   })
   @IsOptional()
-  author: string;
+  author?: string;
 
+  @ApiProperty({ required: true })
   @IsEnum(Status)
   status: Status;
 
+  @ApiProperty({ required: true })
   @IsString()
   slug: string;
 
+  @ApiProperty({ required: true })
   @IsString()
   synopsis: string;
 
+  @ApiProperty({ required: true })
   @IsUrl()
   thumbnail: string;
 
+  @ApiProperty({ required: true })
   @IsObject({ each: true, message: 'Gênero deve ser um objeto' })
   gender: Gender | Gender[];
 }
