@@ -12,7 +12,7 @@ export class CaslAbilityFactory {
       createPrismaAbility,
     );
 
-    permisions[user?.role || 'user'].permissions(can, cannot, user)
+    permisions[user?.role || 'user'].permissions(can, cannot, user);
 
     return build({
       // Read https://casl.js.org/v5/en/guide/subject-type-detection#use-classes-as-subject-types for details

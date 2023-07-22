@@ -12,12 +12,15 @@ import { ChapterService } from './chapter.service';
 import { CreateChapterDto } from './dto/create-chapter.dto';
 import { UpdateChapterDto } from './dto/update-chapter.dto';
 import { Public } from '../decorators/public.decorator';
+import { CheckPolicies } from 'src/decorators/checkPolicies.decorator';
+import CreateChapterPolicyHandler from 'src/policiesHandler/chapter/CreateChapter.policy';
 
 @Controller(':slug')
 export class ChapterController {
   constructor(private readonly chapterService: ChapterService) {}
 
   @Post('chapter')
+  // @CheckPolicies(new CreateChapterPolicyHandler())
   async create(
     @Body() newChapter: CreateChapterDto,
     @Param('slug') slug: string,
