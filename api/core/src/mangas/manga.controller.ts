@@ -14,6 +14,8 @@ import {
 } from '@nestjs/common';
 import { Public } from '../decorators/public.decorator';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CheckPolicies } from 'src/decorators/checkPolicies.decorator';
+import CanCreateMangaPolicyHandler from 'src/policiesHandler/mangas/CanCreateManga.policy';
 
 @ApiTags('Mangas')
 @Controller('mangas')
@@ -24,7 +26,8 @@ export class MangaController {
     summary: 'Cria um novo manga',
     description: 'Rota POST que retorna um manga',
   })
-  @ApiBearerAuth('')
+  @ApiBearerAuth('Mod ou Admin')
+  @CheckPolicies(new CanCreateMangaPolicyHandler())
   @Post()
   async create(@Body() newManga: CreateMangaDto) {
     return this.mangaService.create(newManga); // This will return the newly created manga

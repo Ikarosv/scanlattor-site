@@ -24,14 +24,15 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@h4ad/serverless-adapter": "^3.1.0",
     "@casl/ability": "^6.5.0",
     "@casl/prisma": "^1.4.0",
+    "@h4ad/serverless-adapter": "^3.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.1.0",
     "@nestjs/mapped-types": "^2.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^7.1.2",
     "@prisma/client": "^4.15.0",
     "@vendia/serverless-express": "^4.10.4",
     "bcrypt": "^5.1.0",
