@@ -1,5 +1,7 @@
 {
   "recommendations": [
-    "rangav.vscode-thunder-client"
+    "rangav.vscode-thunder-client",
+    "github.copilot",
+    "dbaeumer.vscode-eslint"
   ]
 }
