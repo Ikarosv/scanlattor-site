@@ -103,6 +103,13 @@ export class UserService {
       where: {
         email,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        password: true,
+        role: true,
+      },
     });
   }
 }
