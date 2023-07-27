@@ -60,7 +60,7 @@ export class ChapterService {
     return this.prisma.chapter.findMany();
   }
 
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(id: string) {
     const chapter = await this.prisma.chapter.findUnique({
       where: {
         id,
@@ -123,7 +123,7 @@ export class ChapterService {
     });
   }
 
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(id: string) {
     const chapter = await this.prisma.chapter.findUnique({
       where: {
         id,

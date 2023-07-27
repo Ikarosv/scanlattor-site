@@ -44,26 +44,23 @@ export class MangaController {
 
   @Public()
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: string) {
     return this.mangaService.findOne(id); // This will return the manga with the id passed in the url
   }
 
   @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() newManga: UpdateMangaDto,
-  ) {
+  async update(@Param('id') id: string, @Body() newManga: UpdateMangaDto) {
     return this.mangaService.update(id, newManga); // This will update the manga with the id passed in the url
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id') id: string) {
     return this.mangaService.remove(id); // This will remove the manga with the id passed in the url
   }
 
   @Public()
   @Get('most-read')
-  async findMostRead() {
-    return this.mangaService.findMostRead();
+  async findMostRead(@Param('page', ParseIntPipe) page: number) {
+    return this.mangaService.findMostRead(page);
   }
 }

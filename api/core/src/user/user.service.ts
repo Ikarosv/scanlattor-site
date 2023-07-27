@@ -17,7 +17,7 @@ export class UserService {
     password: false,
   };
 
-  async userExists(id: number) {
+  async userExists(id: string) {
     const user = await this.prisma.user.count({
       where: {
         id,
@@ -64,7 +64,7 @@ export class UserService {
     }); // This will return all the users
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     await this.userExists(id);
 
     return this.prisma.user.findUnique({
@@ -75,7 +75,7 @@ export class UserService {
     }); // This will return the user with the id passed in the url
   }
 
-  async update(id: number, data: UpdateUserDto) {
+  async update(id: string, data: UpdateUserDto) {
     await this.userExists(id);
 
     return this.prisma.user.update({
@@ -87,7 +87,7 @@ export class UserService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.userExists(id);
 
     return this.prisma.user.delete({

@@ -1,7 +1,6 @@
 import {
   Injectable,
   Param,
-  ParseIntPipe,
   BadRequestException,
   ConflictException,
 } from '@nestjs/common';
@@ -16,7 +15,7 @@ import { UpdateMangaDto } from './dto/update-manga.dto';
 export class MangaService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: string) {
     const manga = await this.prisma.manga.findUnique({
       where: {
         id,
@@ -105,7 +104,7 @@ export class MangaService {
     return manga;
   }
 
-  async update(@Param('id', ParseIntPipe) id: number, data: UpdateMangaDto) {
+  async update(@Param('id') id: string, data: UpdateMangaDto) {
     await this.findOne(id);
     const query: Prisma.MangaUpdateArgs = {
       where: {
@@ -131,7 +130,7 @@ export class MangaService {
     return this.prisma.manga.update(query);
   }
 
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id') id: string) {
     await this.findOne(id);
     return this.prisma.manga.delete({
       where: {
@@ -140,5 +139,16 @@ export class MangaService {
     });
   }
 
-  async findMostRead() {}
+  async findMostRead(page: number = 1) {
+    const take = 5
+    const mangas = await this.prisma.manga.findMany({
+      orderBy: {
+        views: 'desc',
+      },
+      take,
+      skip: take * page -1,
+    });
+
+    return mangas;
+  }
 }

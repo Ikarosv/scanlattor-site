@@ -15,7 +15,7 @@ enum Status {
 }
 
 model Manga {
-  id          Int         @id @default(autoincrement())
+  id          String         @id @default(uuid())
   title       String
   slug        String      @unique
   author      String?
@@ -28,13 +28,14 @@ model Manga {
   chapters    Chapter[]
   rate        RateManga[]
   gender      Gender[]    @relation("GenderToManga")
+  views       Int         @default(0)
 
   @@unique([title, author])
   @@map("mangas")
 }
 
 model Gender {
-  id     Int     @id @default(autoincrement())
+  id     String     @id @default(uuid())
   name   String
   mangas Manga[] @relation("GenderToManga")
 
@@ -42,9 +43,9 @@ model Gender {
 }
 
 model RateManga {
-  id      Int   @id @default(autoincrement())
-  mangaId Int
-  userId  Int
+  id      String   @id @default(uuid())
+  mangaId String
+  userId  String
   rate    Int
   manga   Manga @relation(fields: [mangaId], references: [id])
   user    User  @relation(fields: [userId], references: [id])
@@ -59,7 +60,7 @@ enum Role {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
+  id        String         @id @default(uuid())
   name      String
   email     String      @unique
   password  String
@@ -72,15 +73,15 @@ model User {
 }
 
 model Chapter {
-  id          Int      @id @default(autoincrement())
+  id          String      @id @default(uuid())
   title       String?
   number      Float
   content     String
   createdAt   DateTime @default(now())
-  createdById Int
+  createdById String
   createdBy   User     @relation(fields: [createdById], references: [id])
   updatedAt   DateTime @updatedAt
-  mangaId     Int
+  mangaId     String
   manga       Manga    @relation(fields: [mangaId], references: [id], onDelete: Cascade)
 
   @@map("chapters")

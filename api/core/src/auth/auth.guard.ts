@@ -12,10 +12,10 @@ import { Role } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 type ResultToken = {
-  sub: number;
+  sub: string;
   username: string;
   user: {
-    id: number;
+    id: string;
     name: string;
     email: string;
     createdAt: string;

@@ -29,14 +29,14 @@ export class UserController {
 
   // Listar um usuário específico
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id') id: string) {
     return this.userService.findOne(id); // This will return the user with the id passed in the url
   }
 
   // Atualizar um usuário
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() newUser: UpdateUserDto,
   ) {
     return this.userService.update(id, newUser); // This will update the user with the id passed in the url
@@ -44,7 +44,7 @@ export class UserController {
 
   // Deletar um usuário
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id') id: string) {
     return this.userService.remove(id); // This will remove the user with the id passed in the url
   }
 }

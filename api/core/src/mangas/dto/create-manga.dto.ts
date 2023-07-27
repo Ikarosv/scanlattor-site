@@ -54,4 +54,4 @@ export class CreateMangaDto implements Prisma.MangaCreateManyInput {
   gender: Gender | Gender[];
 }
 
-type Gender = { id: number };
+type Gender = { id: string };

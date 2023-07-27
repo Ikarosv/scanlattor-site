@@ -53,7 +53,7 @@ export class ChapterController {
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id') id: string) {
     return this.chapterService.remove(id); // This will remove the manga with the id passed in the url
   }
 }
