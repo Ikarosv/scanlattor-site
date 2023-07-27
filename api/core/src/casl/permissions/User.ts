@@ -5,7 +5,13 @@ import { Action } from '../../enums/actions.enums';
 export default class UserPermission {
   static permissions(can: AddRuleCan, cannot: AddRuleCannot, user: User): void {
     if (user) {
-      can([Action.Delete, Action.Update], 'User', { id: user.id });
+      can(
+        [Action.Delete, Action.Update],
+        'User',
+        ['email', 'password', 'name'],
+        { id: user.id },
+      );
+      can(Action.Read, 'User', ['id', 'email', 'name', 'role']);
     } else {
       cannot([Action.Delete, Action.Update], 'User');
     }
