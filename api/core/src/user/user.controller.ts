@@ -36,7 +36,7 @@ export class UserController {
   // Atualizar um usuário
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id') id: string,
     @Body() newUser: UpdateUserDto,
   ) {
     return this.userService.update(id, newUser); // This will update the user with the id passed in the url

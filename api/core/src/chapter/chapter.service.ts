@@ -2,8 +2,6 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  Param,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateChapterDto } from './dto/create-chapter.dto';
@@ -78,8 +76,8 @@ export class ChapterService {
   }
 
   async findByNumber(
-    @Param('number', ParseIntPipe) number: number,
-    @Param('slug') slug: string,
+    number: number,
+    slug: string,
   ) {
     const chapter = await this.prisma.chapter.findFirst({
       where: {
@@ -98,9 +96,9 @@ export class ChapterService {
   }
 
   async update(
-    @Param('number', ParseIntPipe) numb: number,
+    numb: number,
     data: UpdateChapterDto,
-    @Param('slug') slug: string,
+    slug: string,
   ) {
     const chapter = await this.prisma.chapter.findFirst({
       where: {
