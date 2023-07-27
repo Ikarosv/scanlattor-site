@@ -2,8 +2,8 @@ import { Action } from '../../enums/actions.enums';
 import { AppAbility } from '../../casl/abilities/AppAbility';
 import type { IPolicyHandler } from 'types/policies';
 
-export default class CreateChapterPolicyHandler implements IPolicyHandler {
+export default class CanDeleteChapterPolicyHandler implements IPolicyHandler {
   handle(ability: AppAbility) {
-    return ability.can(Action.Create, 'Chapter');
+    return ability.can(Action.Delete, 'Chapter');
   }
 }
