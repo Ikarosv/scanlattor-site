@@ -4,6 +4,14 @@ import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 
+interface CreateTokenProps {
+  id: User['id'];
+  name: User['name'];
+  email: User['email'];
+  role: User['role'];
+  password: User['password'];
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -11,7 +19,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(user: User) {
+  async createToken(user: CreateTokenProps) {
     const { password: _pass, ...userWithoutPassword } = user;
 
     const payload = {

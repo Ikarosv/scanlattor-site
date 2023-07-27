@@ -18,7 +18,6 @@ type ResultToken = {
     id: string;
     name: string;
     email: string;
-    createdAt: string;
     role: Role;
   };
   iat: number;
@@ -54,6 +53,7 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync<ResultToken>(token, {
         secret: process.env.JWT_SECRET,
       });
+      console.log(payload.user);
 
       const userDb = (await this.prisma.user.findUnique({
         where: {
@@ -61,14 +61,13 @@ export class AuthGuard implements CanActivate {
         },
         select: {
           id: true,
-          name: true,
           email: true,
-          createdAt: true,
+          name: true,
           role: true,
         },
       })) as unknown as ResultToken['user'];
 
-      userDb.createdAt = new Date(userDb.createdAt).toISOString();
+      // userDb.createdAt = new Date(userDb.createdAt).toISOString();
 
       if (!userDb) {
         throw new UnauthorizedException('Usuário não autorizado!');
@@ -81,6 +80,7 @@ export class AuthGuard implements CanActivate {
       if (JSON.stringify(userDb) !== JSON.stringify(payload.user)) {
         throw new UnauthorizedException('Usuário não autorizado!');
       }
+      console.log(payload.user);
 
       request['user'] = payload.user;
     } catch {
