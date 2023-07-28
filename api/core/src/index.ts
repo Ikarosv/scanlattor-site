@@ -8,7 +8,7 @@ let cachedServer;
 
 export const handler = async (event, context) => {
   if (!cachedServer) {
-    const nestApp = await NestFactory.create(AppModule);
+    const nestApp = await NestFactory.create(AppModule, { cors: false });
     const config = new DocumentBuilder()
       .setTitle('Scanlattor API')
       .setDescription('Scanlattor API description')
