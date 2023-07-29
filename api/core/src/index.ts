@@ -8,7 +8,14 @@ let cachedServer;
 
 export const handler = async (event, context) => {
   if (!cachedServer) {
-    const nestApp = await NestFactory.create(AppModule, { cors: false });
+    const nestApp = await NestFactory.create(AppModule);
+    nestApp.enableCors({
+      origin: '*',
+      methods: 'GET,PUT,POST,DELETE',
+      allowedHeaders: 'Content-Type,Authorization',
+    });
+
+    /* DOCUMENTAÇÃO */
     const config = new DocumentBuilder()
       .setTitle('Scanlattor API')
       .setDescription('Scanlattor API description')
@@ -21,6 +28,9 @@ export const handler = async (event, context) => {
       .build();
     const document = SwaggerModule.createDocument(nestApp, config);
     SwaggerModule.setup('documentation', nestApp, document);
+    /*  */
+
+    /* SERVERLESS */
     await nestApp.init();
     nestApp.useGlobalPipes(new ValidationPipe());
     cachedServer = serverlessExpress({

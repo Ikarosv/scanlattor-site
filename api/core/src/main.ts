@@ -2,12 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import { ServerlessAdapter } from '@h4ad/serverless-adapter';
-import { LazyFramework } from '@h4ad/serverless-adapter/lib/frameworks/lazy';
-import { ExpressFramework } from '@h4ad/serverless-adapter/lib/frameworks/express';
-import { DefaultHandler } from '@h4ad/serverless-adapter/lib/handlers/default';
-import { PromiseResolver } from '@h4ad/serverless-adapter/lib/resolvers/promise';
-import { ApiGatewayV2Adapter } from '@h4ad/serverless-adapter/lib/adapters/aws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 // import { PrismaService } from './prisma/prisma.service';
 
@@ -15,6 +9,11 @@ async function bootstrap() {
   try {
     const nestApp = await NestFactory.create(AppModule, new ExpressAdapter());
     nestApp.useGlobalPipes(new ValidationPipe());
+    nestApp.enableCors({
+      origin: '*',
+      methods: 'GET,PUT,POST,DELETE',
+      allowedHeaders: 'Content-Type,Authorization',
+    });
     const port = process.env.PORT || 3001;
     const config = new DocumentBuilder()
       .setTitle('Scanlattor API')
