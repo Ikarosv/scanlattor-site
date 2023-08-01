@@ -2,6 +2,7 @@
   "recommendations": [
     "rangav.vscode-thunder-client",
     "github.copilot",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "prisma.prisma"
   ]
 }
