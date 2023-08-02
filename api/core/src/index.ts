@@ -10,7 +10,7 @@ export const handler = async (event, context) => {
   if (!cachedServer) {
     const nestApp = await NestFactory.create(AppModule);
     nestApp.enableCors({
-      origin: 'https://frontend-scanlattor-site.bohr.io',
+      // origin: 'https://frontend-scanlattor-site.bohr.io',
       methods: 'GET,PUT,POST,DELETE',
       allowedHeaders: 'Content-Type,Authorization',
     });
