@@ -2,12 +2,12 @@ import { CreateMangaDto } from './dto/create-manga.dto';
 import { UpdateMangaDto } from './dto/update-manga.dto';
 import { MangaService } from './manga.service';
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -54,10 +54,14 @@ export class MangaController {
   })
   @Public()
   @Get('most-read')
-  async findMostRead(@Param('page', ParseIntPipe) page: number) {
-    return this.mangaService.findMostRead(page);
+  async findMostRead(@Query('page') pageQuery?: string) {
+    const page = pageQuery;
+    if (page && +page < 1) {
+      throw new BadRequestException('Página deve ser maior que 0');
+    }
+    return this.mangaService.findMostRead(Number(page));
   }
-  
+
   @ApiOperation({
     summary: 'Pega um mangá pelo id',
     description: 'Rota GET que retorna um mangás pelo id que vem pela URL',
@@ -87,5 +91,4 @@ export class MangaController {
   async remove(@Param('id') id: string) {
     return this.mangaService.remove(id); // This will remove the manga with the id passed in the url
   }
-
 }

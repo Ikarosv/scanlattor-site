@@ -146,6 +146,7 @@ export class MangaService {
         views: 'desc',
       },
       take,
+      skip: (page - 1) * take || undefined,
     });
 
     return mangas;
