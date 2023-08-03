@@ -49,6 +49,16 @@ export class MangaController {
   }
 
   @ApiOperation({
+    summary: 'Pega os mangás mais lidos',
+    description: 'Rota GET que retorna os mangás mais lidos',
+  })
+  @Public()
+  @Get('get/most-read')
+  async findMostRead(@Param('page', ParseIntPipe) page: number) {
+    return this.mangaService.findMostRead(page);
+  }
+  
+  @ApiOperation({
     summary: 'Pega um mangá pelo id',
     description: 'Rota GET que retorna um mangás pelo id que vem pela URL',
   })
@@ -78,13 +88,4 @@ export class MangaController {
     return this.mangaService.remove(id); // This will remove the manga with the id passed in the url
   }
 
-  @ApiOperation({
-    summary: 'Pega os mangás mais lidos',
-    description: 'Rota GET que retorna os mangás mais lidos',
-  })
-  @Public()
-  @Get('/get/most-read')
-  async findMostRead(@Param('page', ParseIntPipe) page: number) {
-    return this.mangaService.findMostRead(page);
-  }
 }
