@@ -83,7 +83,7 @@ export class MangaController {
     description: 'Rota GET que retorna os mangás mais lidos',
   })
   @Public()
-  @Get('most-read')
+  @Get('/get/most-read')
   async findMostRead(@Param('page', ParseIntPipe) page: number) {
     return this.mangaService.findMostRead(page);
   }
