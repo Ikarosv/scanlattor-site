@@ -53,7 +53,7 @@ export class MangaController {
     description: 'Rota GET que retorna os mangás mais lidos',
   })
   @Public()
-  @Get('get/most-read')
+  @Get('most-read')
   async findMostRead(@Param('page', ParseIntPipe) page: number) {
     return this.mangaService.findMostRead(page);
   }
@@ -63,7 +63,7 @@ export class MangaController {
     description: 'Rota GET que retorna um mangás pelo id que vem pela URL',
   })
   @Public()
-  @Get(':id')
+  @Get('get/:id')
   async findOne(@Param('id') id: string) {
     return this.mangaService.findOne(id); // This will return the manga with the id passed in the url
   }
