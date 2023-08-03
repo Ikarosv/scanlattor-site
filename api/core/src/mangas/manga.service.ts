@@ -140,13 +140,12 @@ export class MangaService {
   }
 
   async findMostRead(page = 1) {
-    const take = 5;
+    const take = 8;
     const mangas = await this.prisma.manga.findMany({
       orderBy: {
         views: 'desc',
       },
       take,
-      skip: take * (page - 1),
     });
 
     return mangas;
